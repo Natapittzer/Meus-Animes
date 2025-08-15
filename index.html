@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Catálogo de Animes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-tv"></i> Meu Catálogo de Animes</h1>
+                <button class="btn btn-primary" id="addAnimeBtn">
+                    <i class="fas fa-plus"></i> Adicionar Anime
+                </button>
+            </div>
+        </header>
+
+        <!-- Estatísticas -->
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-play-circle"></i>
+                    <div class="stat-info">
+                        <h3 id="totalAnimes">0</h3>
+                        <p>Total de Animes</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-eye"></i>
+                    <div class="stat-info">
+                        <h3 id="totalEpisodios">0</h3>
+                        <p>Episódios Assistidos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <h3 id="tempoTotal">0h</h3>
+                        <p>Tempo Total</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-heart"></i>
+                    <div class="stat-info">
+                        <h3 id="totalFavoritos">0</h3>
+                        <p>Favoritos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros e Pesquisa -->
+        <section class="filters">
+            <div class="filters-row">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Pesquisar anime...">
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="watching">Assistindo <span class="filter-count" id="watchingCount">0</span></button>
+                    <button class="filter-btn" data-filter="completed">Terminado <span class="filter-count" id="completedCount">0</span></button>
+                    <button class="filter-btn" data-filter="plan">Quero Assistir <span class="filter-count" id="planCount">0</span></button>
+                    <button class="filter-btn" data-filter="favorites">Favoritos</button>
+                    <button class="filter-btn" data-filter="hidden">Ocultos <span class="filter-count" id="hiddenCount">0</span></button>
+                </div>
+            </div>
+            <div class="filters-row">
+                <div class="genre-filter">
+                    <select id="genreFilter">
+                        <option value="">Todos os gêneros</option>
+                    </select>
+                </div>
+                <div class="sort-filter">
+                    <select id="sortFilter">
+                        <option value="name">Ordenar por Nome</option>
+                        <option value="status">Ordenar por Status</option>
+                        <option value="episodes">Ordenar por Episódios</option>
+                        <option value="date">Ordenar por Data</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de Animes -->
+        <section class="anime-list" id="animeList">
+            <!-- Animes serão inseridos aqui dinamicamente -->
+        </section>
+
+        <!-- Modal para Adicionar/Editar Anime -->
+        <div class="modal" id="animeModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Adicionar Novo Anime</h2>
+                    <button class="close-btn" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="animeForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="animeName">Nome do Anime *</label>
+                            <input type="text" id="animeName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="animeImage">URL da Imagem</label>
+                            <input type="url" id="animeImage" placeholder="https://exemplo.com/imagem.jpg">
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUpload">Ou Upload de Imagem</label>
+                            <input type="file" id="imageUpload" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="animeGenres">Gêneros</label>
+                            <input type="text" id="animeGenres" placeholder="Ação, Comédia, Drama">
+                        </div>
+                        <div class="form-group">
+                            <label for="animeStatus">Status *</label>
+                            <select id="animeStatus" required>
+                                <option value="watching">Assistindo</option>
+                                <option value="completed">Terminado</option>
+                                <option value="plan">Quero Assistir</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="totalSeasons">Número de Temporadas</label>
+                            <input type="number" id="totalSeasons" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="totalEpisodes">Total de Episódios *</label>
+                            <input type="number" id="totalEpisodes" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="watchedEpisodes">Episódios Assistidos</label>
+                            <input type="number" id="watchedEpisodes" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Data de Início</label>
+                            <input type="date" id="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">Data de Término</label>
+                            <input type="date" id="endDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="externalLink1">Crunchyroll</label>
+                            <input type="url" id="externalLink1" placeholder="MyAnimeList, Crunchyroll, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="externalLink2">Link Externo 2</label>
+                            <input type="url" id="externalLink2" placeholder="Crunchyroll, Netflix, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="externalLink3">Link Externo 3</label>
+                            <input type="url" id="externalLink3" placeholder="Funimation, Amazon Prime, etc.">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isFavorite">
+                                <span class="checkmark"></span>
+                                Marcar como Favorito
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isHidden">
+                                <span class="checkmark"></span>
+                                Ocultar anime
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação -->
+        <div class="modal" id="confirmModal">
+            <div class="modal-content confirm-modal">
+                <div class="modal-header">
+                    <h2>Confirmar Exclusão</h2>
+                    <button class="close-btn" id="closeConfirmModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir este anime?</p>
+                    <p class="anime-name" id="confirmAnimeName"></p>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelDelete">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
